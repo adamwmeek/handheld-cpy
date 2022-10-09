@@ -23,6 +23,7 @@ sdcard_cs = board.D5
 i2c = busio.I2C(board.SCL, board.SDA)
 kbd = BBQ10Keyboard(i2c)
 pix = neopixel.NeoPixel(board.D11, 1)
+flashlight = neopixel.NeoPixel(board.NEOPIXEL, 1)
 
 current_program = None
 backlight_timer = time.time()
@@ -40,6 +41,7 @@ backlight_on_power = 1.0
 backlight_on = True
 backlight_timeout_sec = 60
 backlight_timesout = True
+flashlight_on = False
 
 def poff():
     pix[0] = (0, 0, 0)
@@ -131,5 +133,11 @@ while True:
                 switch_to(t)
             elif key[1] == chr(17):
                 switch_to(e)
+            elif key[1] == chr(18):
+                if flashlight_on:
+                    flashlight[0] = (0, 0, 0)
+                else:
+                    flashlight[0] = (255, 255, 255)
+                flashlight_on = not flashlight_on
             else:
                 current_program.handle_keyboard(key[1])
