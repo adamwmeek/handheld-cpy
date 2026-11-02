@@ -14,6 +14,7 @@ from analogio import AnalogIn
 
 from terminal import Terminal
 from editor import Editor
+from screen_saver import ScreenSaver
 
 spi = board.SPI()
 tft_cs = board.D9
@@ -74,7 +75,7 @@ draw_window_border()
 # Start 'programs'
 t = Terminal(window, spi, sdcard_cs)
 e = Editor(window, spi, sdcard_cs)
-
+s = ScreenSaver(window, spi, sdcard_cs)
 class DummyProg:
     def switch_to(self):
         pass
@@ -106,7 +107,7 @@ switch_to(t)
 
 while True:
     # check if it's time to dim the device
-    if time.time() - backlight_timer > backlight_timeout_sec and backlight_timesout:
+    if time.time() - backlight_timer > backlight_timeout_sec and backlight_timesout and current_program != s:
         kbd.backlight = 0.01
         kbd.backlight2 = 0.01
         backlight_on = False
@@ -133,6 +134,8 @@ while True:
                 switch_to(t)
             elif key[1] == chr(17):
                 switch_to(e)
+            elif key[1] == chr(7):
+                switch_to(s)
             elif key[1] == chr(18):
                 if flashlight_on:
                     flashlight[0] = (0, 0, 0)
@@ -141,3 +144,5 @@ while True:
                 flashlight_on = not flashlight_on
             else:
                 current_program.handle_keyboard(key[1])
+
+    current_program.tick()

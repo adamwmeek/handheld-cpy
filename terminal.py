@@ -105,6 +105,9 @@ class Terminal:
         gc.collect()
         time.sleep(0.03) 
 
+    def tick(self):
+        pass
+
     ###
     # Helper methods
     ###

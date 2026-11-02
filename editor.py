@@ -122,6 +122,9 @@ class Editor:
         # time.sleep(0.03) 
         pass
 
+    def tick(self):
+        pass
+
     ###
     # Helper methods
     ###
