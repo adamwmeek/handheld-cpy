@@ -50,10 +50,10 @@ class Program:
     # Inheriting classes need to call super().switch_from()
     # at the end of their switch_from() method
     def switch_from(self):
-        global print
+        # global print
         # global wd
         # wd = self.wd
-        print=self.old_print
+        # print=self.old_print
 
         return True
 

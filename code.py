@@ -170,6 +170,9 @@ while started:
         except Exception as e:
             system.draw_error_screen()
 
+        if not switch_success:
+            system.draw_error_screen()
+
         gc.collect()
         time.sleep(0.1)
 

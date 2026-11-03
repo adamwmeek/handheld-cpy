@@ -25,7 +25,7 @@ class ScreenSaver(Program):
         self.draw_square()
         
     def switch_from(self):
-        super().switch_from()
+        return super().switch_from()
 
     def handle_keyboard(self, pressed):
             
