@@ -38,17 +38,21 @@ class Program:
     # Inheriting classes need to call super().switch_to()
     # at the start of their switch_to() method
     def switch_to(self):
-        global print, wd
+        global print
+        # global wd
+
         self.old_print=print
-        self.wd = wd
+        # self.wd = wd
+        self.wd = '/'
         self.periodic_time = time.time()
 
     # Provides a base line context switching
     # Inheriting classes need to call super().switch_from()
     # at the end of their switch_from() method
     def switch_from(self):
-        global print, wd
-        wd = self.wd
+        global print
+        # global wd
+        # wd = self.wd
         print=self.old_print
 
         return True
@@ -73,6 +77,7 @@ class Program:
 
 
     def sleep(self, seconds):
+        # gc.collect()
         time.sleep(seconds)
 
 
