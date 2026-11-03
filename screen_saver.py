@@ -5,6 +5,7 @@ class ScreenSaver(Program):
 
     def __init__(self, window, spi, sdcard_cs):
         super().__init__(window, spi, sdcard_cs)
+        self.crash_counter = 0
 
     ###
     # UI methods
@@ -24,9 +25,6 @@ class ScreenSaver(Program):
         self.square_colors.remove(self.square_color)
         self.square_first = True
         self.draw_square()
-        
-    # def switch_from(self):
-    #     return super().switch_from()
 
     def handle_keyboard(self, pressed):
             
@@ -46,6 +44,7 @@ class ScreenSaver(Program):
                 self.square_colors.append(old_color)
                 self.square_colors.remove(self.square_color)
                 self.periodic_time = current_time
+                # self.crash_counter += 1
 
         self.square_x += self.square_x_dir
         self.square_y += self.square_y_dir
@@ -57,6 +56,9 @@ class ScreenSaver(Program):
 
         self.draw_square()
         super().sleep(0.05)
+
+        # if self.crash_counter >= 3:
+        #     raise Exception("This is a test crash")
 
     ########
     # Helpers

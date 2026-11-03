@@ -47,9 +47,6 @@ class Terminal(Program):
         self.command_group.append(command_label)
 
         self.reload_lines()
-        
-    # def switch_from(self):
-    #     return super().switch_from()
 
     def handle_keyboard(self, pressed):
 
