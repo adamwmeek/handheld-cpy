@@ -32,8 +32,6 @@ class ScreenSaver(Program):
         if pressed == 'a' or pressed == 's' or pressed == 'd' or pressed == 'w':
             self.square_color = random.choice(self.square_colors)
 
-        super().sleep(0.03)
-
     def tick(self):
 
         current_time = super().get_time()

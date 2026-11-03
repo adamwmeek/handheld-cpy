@@ -152,22 +152,25 @@ while started:
             system.backlight_on = True
 
         key = system.kbd.key
-
+        pressed = key[1]
 
         switch_success = False
         try:
-            if key[0] == chr(19):
-                switch_success = system.switch_to(s)
-            elif key[0] == chr(17):
-                switch_success = system.switch_to(e)
-            elif key[0] == chr(7):
+            if pressed == chr(6):
                 switch_success = system.switch_to(t)
-            elif key[0] == chr(18):
+            elif pressed == chr(17):
+                switch_success = system.switch_to(e)
+            elif pressed == chr(7):
+                switch_success = system.switch_to(s)
+            elif pressed == chr(18):
                 system.toggle_flashlight()
                 switch_success = True
             else:
-                system.current_program.handle_keyboard(key[0])
+                system.current_program.handle_keyboard(pressed)
         except Exception as e:
             system.draw_error_screen()
+
+        gc.collect()
+        time.sleep(0.1)
 
     system.current_program.tick()
