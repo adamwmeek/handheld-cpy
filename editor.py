@@ -5,17 +5,13 @@ from adafruit_display_text import label
 import terminalio
 import displayio
 
-class Editor:
+from program import Program
+
+class Editor(Program):
 
     def __init__(self, window, spi, sdcard_cs):
-        self.window = window
-        self.spi = spi
-        self.sdcard_cs = sdcard_cs
-
-        self.status_group = None
-        self.output_group = None
-        
-        self.old_print = None
+        super().__init__(window, spi, sdcard_cs)
+        self.status_group = displayio.Group(scale=1, x=12, y=10)
 
         self.SCREEN_BUFF_LEN = 17
         self.screen_lines = ['']
@@ -34,13 +30,8 @@ class Editor:
     # UI methods
     ###
     def switch_to(self):
-        global print
 
-        self.old_print=print
-        print = self.screen_print_ln
-
-        self.status_group = displayio.Group(scale=1, x=12, y=10)
-        self.output_group = displayio.Group()
+        super().switch_to()
 
         # Draw status bar
         inner_bitmap = displayio.Bitmap(312, 20, 1)
@@ -68,9 +59,6 @@ class Editor:
         self.reload_lines()
         
     def switch_from(self):
-        global print
-
-        print = self.old_print
 
         if not self.read_only and self.changed:
             if self.file is None:
@@ -90,9 +78,11 @@ class Editor:
                     self.file_path = 'Error: ' + str(e)
                     self.update_status()
                     return False
-        self.file.close()
+            self.file.close()
+            
         self.file = None
-        return True
+
+        return super().switch_from()
 
 
     def handle_keyboard(self, pressed):
@@ -119,8 +109,7 @@ class Editor:
         self.output_group[self.current_row] = text_group
         self.file_lines[self.offset + self.current_row] = self.screen_lines[self.current_row]
         gc.collect()
-        # time.sleep(0.03) 
-        pass
+        # time.sleep(0.03)
 
     def tick(self):
         pass

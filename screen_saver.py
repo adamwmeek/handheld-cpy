@@ -17,27 +17,34 @@ class ScreenSaver(Program):
         # Draw initial square
         self.square_x = random.randint(4, 286)
         self.square_y = random.randint(4, 204)
-        self.square_x_dir = random.choice([-3, 3])
-        self.square_y_dir = random.choice([-2, 2])
-        self.square_colors = [0xFFFFFF, 0xFF0000, 0x00FF00, 0xFFFF00, 0x7700FF, 0x00FFFF, 0xFF7700]
+        self.square_x_dir = random.choice([-5, 5])
+        self.square_y_dir = random.choice([-3, 3])
+        self.square_colors = [0xFFFFFF, 0xFF0000, 0x00FF00, 0xFFFF00, 0x7700FF, 0x00FFFF, 0xFF7700, 0xFF0077, 0x0077FF, 0x33FF33, 0xFF3333, 0x3333FF, 0xFF33FF, 0x33FFFF, 0xFFFF33]
         self.square_color = random.choice(self.square_colors)
+        self.square_colors.remove(self.square_color)
         self.square_first = True
         self.draw_square()
         
-    def switch_from(self):
-        return super().switch_from()
+    # def switch_from(self):
+    #     return super().switch_from()
 
     def handle_keyboard(self, pressed):
             
         if pressed == 'a' or pressed == 's' or pressed == 'd' or pressed == 'w':
+            old_color = self.square_color
             self.square_color = random.choice(self.square_colors)
+            self.square_colors.append(old_color)
+            self.square_colors.remove(self.square_color)
 
     def tick(self):
 
         current_time = super().get_time()
 
         if current_time - self.periodic_time > 10:
+                old_color = self.square_color
                 self.square_color = random.choice(self.square_colors)
+                self.square_colors.append(old_color)
+                self.square_colors.remove(self.square_color)
                 self.periodic_time = current_time
 
         self.square_x += self.square_x_dir

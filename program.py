@@ -19,7 +19,8 @@ from adafruit_display_text import label
 class Program:
 
     # Sets system level variables for the program to use
-    # Inheriting classes need to call super().__init__()
+    # Overriding classes need to call super().__init__()
+    # at the start of their constructor
     def __init__(self, window, spi, sdcard_cs):
         self.window = window
         self.spi = spi
@@ -35,7 +36,7 @@ class Program:
         
 
     # Provides a base line context switching
-    # Inheriting classes need to call super().switch_to()
+    # Overriding classes need to call super().switch_to()
     # at the start of their switch_to() method
     def switch_to(self):
         global print
@@ -47,7 +48,7 @@ class Program:
         self.periodic_time = time.time()
 
     # Provides a base line context switching
-    # Inheriting classes need to call super().switch_from()
+    # Overriding classes need to return super().switch_from()
     # at the end of their switch_from() method
     def switch_from(self):
         # global print
@@ -181,6 +182,7 @@ class Program:
                 self.wd+='/'
             self.wd+=path
 
+
     def cp(self, old, new):
 
         if self.sd_mounted:
@@ -212,6 +214,7 @@ class Program:
             old_file.close()
             new_file.close()
             gc.collect()
+            
 
     def mkdir(self, path):
 

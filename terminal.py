@@ -8,34 +8,24 @@ import displayio
 import sdcardio
 import storage
 
-class Terminal:
+from program import Program
+
+class Terminal(Program):
 
     def __init__(self, window, spi, sdcard_cs):
-        self.window = window
-        self.spi = spi
-        self.sdcard_cs = sdcard_cs
+        super().__init__(window, spi, sdcard_cs)
 
-        self.output_group = None
-        self.command_group = None
-        self.old_print = None
+        self.command_group = displayio.Group(scale=1, x=12, y=220)
 
         self.command = ''
         self.SCREEN_BUFF_LEN = 15
         self.screen_lines = ['CircuitPython Terminal Started']
-        
-        self.wd = '/'
 
     ###
     # UI methods
     ###
     def switch_to(self):
-        global print
-
-        self.old_print=print
-        print = self.screen_print_ln
-
-        self.output_group = displayio.Group()
-        self.command_group = displayio.Group(scale=1, x=12, y=220)
+        super().switch_to()
         
         # Draw output window
         inner_bitmap = displayio.Bitmap(312, 200, 1)
@@ -58,11 +48,8 @@ class Terminal:
 
         self.reload_lines()
         
-    def switch_from(self):
-        global print
-
-        print = self.old_print
-        return True
+    # def switch_from(self):
+    #     return super().switch_from()
 
     def handle_keyboard(self, pressed):
 
@@ -102,8 +89,7 @@ class Terminal:
         self.command_group.pop()
         command_label = label.Label(terminalio.FONT, text=self.command, color=0xFFFFFF)
         self.command_group.append(command_label)
-        gc.collect()
-        time.sleep(0.03) 
+        gc.collect() 
 
     def tick(self):
         pass
